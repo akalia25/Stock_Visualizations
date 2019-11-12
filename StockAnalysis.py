@@ -8,7 +8,8 @@ Created on Mon Nov 11 23:37:01 2019
 
 import yfinance as yf
 
-def user_Stocks():
+
+def user_input():
     while True :
         try : 
             stocks =  input("Please enter the stocks you would like to analyze seperated by commas : ")
@@ -18,4 +19,22 @@ def user_Stocks():
             pass
         print("Incorrect input please enter your stocks")
     
-    return stocks
+    return stocks 
+
+def parseStocks(val):
+    val = [x.strip(' ') for x in val]
+    return val    
+
+
+
+def main():
+    stocks = user_input().split(',')
+    stocks = parseStocks(stocks)
+    print(stocks)
+
+    
+    
+    
+if __name__ == '__main__':
+    main()
+

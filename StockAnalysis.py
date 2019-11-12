@@ -11,11 +11,11 @@ import yfinance as yf
 def user_Stocks():
     while True :
         try : 
-            stocks =  input("Please enter the risk level from 1 (Low Risk) or 2 (Med Risk) or 3 (High Risk) you would like to take on from your portfolio : ")
-            if int(risk) > 0 and int(risk) <=3 :
+            stocks =  input("Please enter the stocks you would like to analyze seperated by commas : ")
+            if len(stocks) > 0 :
                 break
         except :
             pass
-        print("Incorrect input please enter risk level between 1-3")
+        print("Incorrect input please enter your stocks")
     
     return stocks

@@ -18,9 +18,7 @@ def user_Stocks():
             pass
         print("Incorrect input please enter your stocks")
     
-    return stocks
-<<<<<<< HEAD
- 
+    return stocks 
 
 stocks = user_Stocks().split(',')
 
@@ -30,6 +28,3 @@ print(stocks)
 
 
 #def parseStocks(stocks):
-        
-=======
->>>>>>> ac1540cfa537338700259b729e1b742591bce57c

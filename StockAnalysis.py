@@ -19,6 +19,3 @@ def user_Stocks():
         print("Incorrect input please enter your stocks")
     
     return stocks
- 
-
-    

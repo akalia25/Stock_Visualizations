@@ -21,4 +21,12 @@ def user_Stocks():
     return stocks
  
 
+stocks = user_Stocks().split(',')
+
+stocks = [x.strip(' ') for x in stocks]
     
+print(stocks)
+
+
+#def parseStocks(stocks):
+        

@@ -7,7 +7,7 @@ Created on Mon Nov 11 23:37:01 2019
 """
 
 import yfinance as yf
-
+import pandas as pd
 
 def user_input():
     while True :
@@ -26,13 +26,21 @@ def parseStocks(val):
     return val    
 
 
+def historicalData(stocks):
+    df = pd.DataFrame()
+    for x in stocks :
+        stock = yf.Ticker(x)
+        tempdf = stock.history()
+        tempdf['StockName'] = x
+        df = df.append(tempdf, sort = 'False')
+    print(df)
 
 def main():
     stocks = user_input().split(',')
     stocks = parseStocks(stocks)
-    print(stocks)
-
+    historicalData(stocks)
     
+
     
     
 if __name__ == '__main__':

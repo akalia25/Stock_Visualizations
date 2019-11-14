@@ -10,39 +10,38 @@ import yfinance as yf
 import pandas as pd
 
 def user_input():
-    while True :
-        try : 
-            stocks =  input("Please enter the stocks you would like to analyze seperated by commas : ")
-            if len(stocks) > 0 :
+    while True:
+        try:
+            stocks = input("Please enter the stocks you would " +
+                           "like to analyze seperated by commas : ")
+            if len(stocks) > 0:
                 break
-        except :
+        except ValueError:
             pass
         print("Incorrect input please enter your stocks")
-    
-    return stocks 
+
+    return stocks
 
 def parseStocks(val):
     val = [x.strip(' ') for x in val]
-    return val    
+    return val
 
 
 def historicalData(stocks):
     df = pd.DataFrame()
-    for x in stocks :
+    for x in stocks:
         stock = yf.Ticker(x)
         tempdf = stock.history()
         tempdf['StockName'] = x
-        df = df.append(tempdf, sort = 'False')
-    print(df)
+        df = df.append(tempdf, sort='False')
+    return df
+
+
 
 def main():
     stocks = user_input().split(',')
     stocks = parseStocks(stocks)
     historicalData(stocks)
-    
 
-    
-    
 if __name__ == '__main__':
     main()
-

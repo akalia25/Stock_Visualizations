@@ -10,8 +10,6 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as matdates
-import matplotlib as mpl
-
 
 def user_input():
     """
@@ -48,9 +46,9 @@ def historicalData(stocks):
     for x in stocks:
         stock = yf.Ticker(x)
         tempdf = stock.history(period='3mo')
-        tempdf['StockName'] = x
+        tempdf.loc[:, 'StockName'] = x
         df = df.append(tempdf, sort='False')
-        df['ROI'] = df['Close'].pct_change()
+        df.loc[:, 'ROI'] = df['Close'].pct_change()
     return df
 
 
@@ -64,13 +62,13 @@ def stockForecastingMovingAverage(stocks_df):
     for stock in uniqueStocks:
         df1 = stocks_df.loc[stocks_df.StockName == stock]
         df1.reset_index(inplace=True)
-        data = df1[['Date','Close']]
+        data = df1[['Date', 'Close']]
         for i in (5, 10, 15):
             simple_moving_average = data.set_index('Date').rolling(window=i).mean()
-            df1['SMA ' + str(stock) + ' ' + str(i)] = simple_moving_average.values
+            df1.loc[:, 'SMA ' + str(stock) + ' ' + str(i)] = simple_moving_average.values
         for i in (5, 10, 15):
             exponential_moving_average = data.set_index('Date').ewm(span=i, adjust=False).mean()
-            df1['EMA ' + str(stock) + ' ' + str(i)] = exponential_moving_average.values
+            df1.loc[:, 'EMA ' + str(stock) + ' ' + str(i)] = exponential_moving_average.values
         print(df1)
 
 
@@ -84,21 +82,20 @@ def stockBollingerBands(stocks_df):
     uniqueStocks = stocks_df.StockName.unique()
     for stock in uniqueStocks:
         df = stocks_df.loc[stocks_df.StockName == stock]
-        df['Middle Bound'] = df['Close'].rolling(window=20).mean()
-        df['20std'] = df['Close'].rolling(window=20).std()
-        df['Upper Bound'] = df['Middle Bound'] + (df['20std'] * 2)
-        df['Lower Bound'] = df['Middle Bound'] - (df['20std'] * 2)
+        df.loc[:, 'Middle Bound'] = df['Close'].rolling(window=20).mean()
+        df.loc[:, '20std'] = df['Close'].rolling(window=20).std()
+        df.loc[:, 'Upper Bound'] = df['Middle Bound'] + (df['20std'] * 2)
+        df.loc[:, 'Lower Bound'] = df['Middle Bound'] - (df['20std'] * 2)
         fig = plt.figure() #
         ax = fig.add_subplot(111)
         #https://stackoverflow.com/a/37219987 reference of the code
         majorFmt = matdates.DateFormatter('%Y-%m-%d %H:%M')
-        Daylocator2 =matdates.DayLocator(interval =1)
+        Daylocator2 = matdates.DayLocator(interval=1)
         ax.xaxis.set_minor_locator(Daylocator2)
         ax.xaxis.set_major_formatter(majorFmt)
-        plt.setp(ax.xaxis.get_majorticklabels(),rotation = 45)
-        x_axis=df.index.get_level_values('Date')
-
-        ax.fill_between(x_axis, df['Upper Bound'], df['Lower Bound'],\ color='orange')
+        plt.setp(ax.xaxis.get_majorticklabels(), rotation=45)
+        x_axis = df.index.get_level_values('Date')
+        ax.fill_between(x_axis, df['Upper Bound'], df['Lower Bound'], color='orange')
         ax.plot(x_axis, df['Close'], color='blue', lw=2)
         ax.plot(x_axis, df['Upper Bound'], color='Black', lw=1)
         ax.plot(x_axis, df['Lower Bound'], color='Black', lw=1)
@@ -108,7 +105,7 @@ def stockBollingerBands(stocks_df):
         ax.set_xlabel('Date (Year/Month Hour/Minute)')
         ax.set_ylabel('Price')
         ax.legend()
-        plt.show();
+        plt.show()
 
 
 def main():

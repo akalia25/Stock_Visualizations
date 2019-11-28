@@ -137,6 +137,29 @@ def CovarianceCorrelation(stocks_df):
     return cov, corr
 
 
+def MarketComparison(stocks_df):
+    """
+    This function takes the users stocks and caculates the normalized returns,
+    with the normalized returns, it maps it on the same plot as the noramlized
+    returns on the market to provide a comparison on returns against the market
+    """
+    norm = stocks_df.loc[:, ['StockName', 'Close']]
+    norm = norm.pivot(index=norm.index, columns='StockName')
+    norm = norm/norm.iloc[0]
+    norm.columns = norm.columns.droplevel()
+    marketVal = yf.Ticker('SPY')
+    df1 = marketVal.history(period='1y')
+    marketDF = df1.loc[:, ['Close']]
+    marketDF = marketDF.rename(columns={'Close': 'SPY Market'})
+    marketDF = marketDF/marketDF.iloc[0]
+    norm['SPY Market'] = marketDF
+    ax = norm.plot(legend=True, grid=True,
+                   title='Stock Performance VS. Market(SPY)')
+    ax.set_ylabel('Normalized Price')
+    ax.set_xlabel('Date')
+    plt.show()
+
+
 def main():
     stocks = user_input().split(',')
     stocks = parseStocks(stocks)
@@ -144,6 +167,7 @@ def main():
     stockForecastingMovingAverage(stocks_df)
     stockBollingerBands(stocks_df)
     CovarianceCorrelation(stocks_df)
+
 
 if __name__ == '__main__':
     main()

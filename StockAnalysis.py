@@ -84,6 +84,8 @@ def stockForecastingMovingAverage(stocks_df):
         MovingAverageDF = pd.concat([df1, MovingAverageDF])
 
     return MovingAverageDF
+
+
 def stockBollingerBands(stocks_df):
     """
     This function calculates the upper/middle/lower bound for the bollinger
@@ -161,8 +163,6 @@ def MarketComparison(stocks_df):
     ax.set_ylabel('Normalized Price')
     ax.set_xlabel('Date')
     plt.show()
-
-def buyTrigger(stocks_df):
 
 
 def main():

@@ -43,27 +43,29 @@ def historicalData(stocks):
     This function uses the Yfinance API and collects the historical data
     of the user inputted and places the data in a dataframe (DF).
     """
-    df = pd.DataFrame()
+    stocks_df = pd.DataFrame()
     for x in stocks:
         try:
             stock = yf.Ticker(x)
             tempdf = stock.history(period='3mo')
             tempdf.loc[:, 'StockName'] = x
-            df = df.append(tempdf, sort='False')
-            df.loc[:, 'ROI'] = df['Close'].pct_change()
+            stocks_df = stocks_df.append(tempdf, sort='False')
+            stocks_df.loc[:, 'ROI'] = stocks_df['Close'].pct_change()
         except ValueError:
             print("Incorrect stock entered " + x)
             pass
-    return df
+    return stocks_df
 
 
 def stockForecastingMovingAverage(stocks_df):
     """
     This function calculates the stocks Simple Moving Average and Exponential
     Moving Average using the rolling function and the ewm function. It
-    calculates for a window of 5,10, and 15 days.
+    calculates for a window of 5,10, and 15 days. Returns a large DataFrame
+    that has all moving averages for all stocks entered
     """
     uniqueStocks = stocks_df.StockName.unique()
+    MovingAverageDF = stocks_df
     for stock in uniqueStocks:
         df1 = stocks_df.loc[stocks_df.StockName == stock]
         df1.reset_index(inplace=True)
@@ -78,9 +80,10 @@ def stockForecastingMovingAverage(stocks_df):
                     'Date').ewm(span=i, adjust=False).mean()
             df1.loc[:, 'EMA ' + str(stock) + ' ' + str(
                     i)] = exponential_moving_average.values
-        print(df1)
+        df1 = df1.set_index('Date')
+        MovingAverageDF = pd.concat([df1, MovingAverageDF])
 
-
+    return MovingAverageDF
 def stockBollingerBands(stocks_df):
     """
     This function calculates the upper/middle/lower bound for the bollinger
@@ -159,6 +162,8 @@ def MarketComparison(stocks_df):
     ax.set_xlabel('Date')
     plt.show()
 
+def buyTrigger(stocks_df):
+
 
 def main():
     stocks = user_input().split(',')
@@ -167,6 +172,7 @@ def main():
     stockForecastingMovingAverage(stocks_df)
     stockBollingerBands(stocks_df)
     CovarianceCorrelation(stocks_df)
+    MarketComparison(stocks_df)
 
 
 if __name__ == '__main__':

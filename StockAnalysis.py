@@ -81,8 +81,20 @@ def stockForecastingMovingAverage(stocks_df):
             df1.loc[:, 'EMA ' + str(stock) + ' ' + str(
                     i)] = exponential_moving_average.values
         df1 = df1.set_index('Date')
-        MovingAverageDF = pd.concat([df1, MovingAverageDF])
+        smaPlotdf = df1.filter(regex='\ASMA')
+        smaPlotdf.loc[:, 'Close'] = df1.Close
+        ax1 = smaPlotdf.plot(legend=True, grid=True,
+                   title='Simple Moving Average Plot of ' + stock)
+        ax1.set_ylabel('Stock Price')
+        ax1.set_xlabel('Date')
+        emaPlotdf = df1.filter(regex='\AEMA')
+        emaPlotdf.loc[:, 'Close'] = df1.Close
+        ax2 = emaPlotdf.plot(legend=True, grid=True,
+                   title='Exponential Moving Average Plot of ' + stock)
+        ax2.set_ylabel('Stock Price')
+        ax2.set_xlabel('Date')
 
+        MovingAverageDF = pd.concat([df1, MovingAverageDF])
     return MovingAverageDF
 
 

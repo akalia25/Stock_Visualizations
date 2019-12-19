@@ -21,6 +21,12 @@ The program calculates the normalized closing prices for the stocks entered and 
 ![alt text](https://github.com/akalia25/Stock_Analysis/blob/master/Screenshots/Stock%20Comparison%20to%20Market.png)
 
 
+For all the stocks entered, the program plots the Simple Moving Average of 5,10,15 days on the same plot as the stock's close price to show how close the moving averages are to the actual stock price (used to determine stock volatility). 
 
+![alt text](https://github.com/akalia25/Stock_Analysis/blob/master/Screenshots/SMA_Plot.png)
 
+For all the stocks entered, the program plots the Exponential Moving Average of 5,10,15 days on the same plot as the stock's close price.
 
+![alt text](https://github.com/akalia25/Stock_Analysis/blob/master/Screenshots/EMA_Plot.png)
+
+**The difference between the Simple Moving Average(SMA) and Exponential Moving Average(EMA), is that EMA places higher weighting towards recent stock prices, whereas the SMA applies equal weighting for all stock prices.

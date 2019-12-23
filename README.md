@@ -31,7 +31,9 @@ Combining the upper, lower, and middle bands the Bollinger Bands visualization i
 ![alt text](https://github.com/akalia25/Stock_Analysis/blob/master/Screenshots/bollinger_band.png)
 
 #### Covariance + Correlation between Stocks
-For the stocks entered by the user, the scripts calculates the **covariance**(how related the stocks are to each other, value of 0 meaning no relation, and a postive number indicating a postive relation in the same direction) and **correlation**(a standardized value of the direction and strength between the stocks, its is measured between [-1, +1] ) between the stocks.
+For the stocks entered by the user, the scripts calculates the **covariance**(how related the stocks are to each other, value of 0 meaning no relation, and a postive number indicating a postive relation in the same direction)
+
+**correlation**(a standardized value of the direction and strength between the stocks, its is measured between [-1, +1] ) between the stocks.
 
 ![alt text](https://github.com/akalia25/Stock_Analysis/blob/master/Screenshots/Covariance%26Correlation.png)
 

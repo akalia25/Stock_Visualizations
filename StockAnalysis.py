@@ -127,7 +127,6 @@ def stockBollingerBands(stocks_df):
         ax.plot(x_axis, df['Upper Bound'], color='Black', lw=1)
         ax.plot(x_axis, df['Lower Bound'], color='Black', lw=1)
         ax.plot(x_axis, df['Middle Bound'], color='Green', lw=1)
-
         ax.set_title('Bollinger Bands ' + stock)
         ax.set_xlabel('Date (Year/Month Hour/Minute)')
         ax.set_ylabel('Price')
@@ -176,6 +175,30 @@ def MarketComparison(stocks_df):
     ax.set_xlabel('Date')
     plt.show()
 
+def StandardDev(stocks_df):
+    for stock in stocks_df.StockName.unique():
+        df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
+        mean_Val = df.mean()
+        std_Val = df.std()
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        majorFmt = matdates.DateFormatter('%Y-%m-%d')
+        Daylocator2 = matdates.DayLocator(interval=1)
+        ax.xaxis.set_minor_locator(Daylocator2)
+        ax.xaxis.set_major_formatter(majorFmt)
+        plt.setp(ax.xaxis.get_majorticklabels(), rotation=90)
+
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Price')
+        ax.set_title(stock + ' CLose Price With Error Bar  ')
+
+        xaxis = df.index.get_level_values('Date')
+        ax.errorbar(xaxis, df.values, yerr=std_Val, label=stock)
+        ax.grid(color='lightgrey', linestyle='-')
+        ax.set_facecolor('w')
+
+        plt.show()
 
 def main():
     stocks = user_input().split(',')
@@ -185,7 +208,7 @@ def main():
     stockBollingerBands(stocks_df)
     CovarianceCorrelation(stocks_df)
     MarketComparison(stocks_df)
-
+    StandardDev(stocks_df)
 
 if __name__ == '__main__':
     main()

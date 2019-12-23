@@ -175,10 +175,10 @@ def MarketComparison(stocks_df):
     ax.set_xlabel('Date')
     plt.show()
 
+
 def StandardDev(stocks_df):
     for stock in stocks_df.StockName.unique():
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
-        mean_Val = df.mean()
         std_Val = df.std()
 
         fig = plt.figure()
@@ -200,6 +200,7 @@ def StandardDev(stocks_df):
 
         plt.show()
 
+
 def main():
     stocks = user_input().split(',')
     stocks = parseStocks(stocks)
@@ -209,6 +210,7 @@ def main():
     CovarianceCorrelation(stocks_df)
     MarketComparison(stocks_df)
     StandardDev(stocks_df)
+
 
 if __name__ == '__main__':
     main()

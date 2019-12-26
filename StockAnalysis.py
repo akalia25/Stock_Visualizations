@@ -157,7 +157,8 @@ def MarketComparison(stocks_df):
     """
     This function takes the users stocks and caculates the normalized returns,
     with the normalized returns, it maps it on the same plot as the noramlized
-    returns on the market to provide a comparison on returns against the market
+    returns on the market to provide a comparison on returns
+    against the market.
     """
     norm = stocks_df.loc[:, ['StockName', 'Close']]
     norm = norm.pivot(index=norm.index, columns='StockName')
@@ -177,6 +178,13 @@ def MarketComparison(stocks_df):
 
 
 def StandardDev(stocks_df):
+    """
+    This function takes input of the stocks dataframe and calculates the
+    standard deviation of each stock for its 30 day closing price period
+    using this standard deviation value the script creates a plot of the
+    stock's closing price with an error bar equivalent to the standard
+    deviation showing the closing price's possible voltaility.
+    """
     for stock in stocks_df.StockName.unique():
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
         std_Val = df.std()

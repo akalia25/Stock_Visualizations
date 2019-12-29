@@ -208,6 +208,15 @@ def StandardDev(stocks_df):
 
         plt.show()
 
+def HoldingPeriod(stocks_df):
+    """
+    The function takes in the stocks dataframe and using
+    analytical techniques calculates whether the stock should
+    be held for long or short period of time
+    """
+    for stock in stocks_df.StockName.unique():
+        df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
+
 
 def main():
     stocks = user_input().split(',')

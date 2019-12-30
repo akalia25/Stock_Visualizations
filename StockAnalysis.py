@@ -233,21 +233,37 @@ def zValue(series):
     stdVal = series.std()
     mu = series[-1]
     z1 = (mu - meanVal) / stdVal
-    x = np.arange(-4, z1, 0.01)
-    y = norm.pdf(x, 0, 1)
-    # build the plot
-    fig, ax = plt.subplots(figsize=(9, 6))
-    plt.style.use('fivethirtyeight')
+    return z1
 
-    ax.fill_between(x, y, -1, alpha=0.3, color='b')
-    ax.set_xlim([-4, 4])
-    ax.set_ylim(0)
-    ax.set_xlabel('# of Standard Deviations Outside the Mean')
-    ax.set_yticklabels([])
-    ax.set_title('Normal Gaussian Curve')
 
-    plt.savefig('normal_curve.png', dpi=72, bbox_inches='tight')
-    plt.show()
+def NormalGaussianCurve(stocks_df):
+    """
+    This function plots the normal gaussian curve for the stocks closing price
+    times series data by calculating the z value using zValue function and
+    created a normal distrubutioon plot with the area of the z value shaded in
+    """
+    for stock in stocks_df.StockName.unique():
+        series = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
+        z1 = zValue(series)
+        x = np.arange(-4, z1, 0.01)
+        y = norm.pdf(x, 0, 1)
+        x_all = np.arange(-10, 10, 0.001)
+        y2 = norm.pdf(x_all,0,1)
+
+        # build the plot
+        fig, ax = plt.subplots(figsize=(9, 6))
+        plt.style.use('fivethirtyeight')
+        ax.plot(x_all,y2)
+        ax.fill_between(x, y, -1, alpha=0.3, color='b')
+        ax.fill_between(x_all,y2,0, alpha=0.1)
+        ax.set_xlim([-4, 4])
+        ax.set_ylim(0)
+        ax.set_xlabel('# of Standard Deviations Outside the Mean')
+        ax.set_yticklabels([])
+        ax.set_title('Normal Gaussian Curve of ' + stock)
+
+        plt.savefig('normal_curve.png', dpi=72, bbox_inches='tight')
+        plt.show()
 
 
 def main():
@@ -259,6 +275,7 @@ def main():
     CovarianceCorrelation(stocks_df)
     MarketComparison(stocks_df)
     StandardDev(stocks_df)
+    NormalGaussianCurve(stocks_df)
 
 
 if __name__ == '__main__':

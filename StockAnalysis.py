@@ -157,7 +157,8 @@ def MarketComparison(stocks_df):
     """
     This function takes the users stocks and caculates the normalized returns,
     with the normalized returns, it maps it on the same plot as the noramlized
-    returns on the market to provide a comparison on returns against the market
+    returns on the market to provide a comparison on returns
+    against the market.
     """
     norm = stocks_df.loc[:, ['StockName', 'Close']]
     norm = norm.pivot(index=norm.index, columns='StockName')
@@ -175,10 +176,17 @@ def MarketComparison(stocks_df):
     ax.set_xlabel('Date')
     plt.show()
 
+
 def StandardDev(stocks_df):
+    """
+    This function takes input of the stocks dataframe and calculates the
+    standard deviation of each stock for its 30 day closing price period
+    using this standard deviation value the script creates a plot of the
+    stock's closing price with an error bar equivalent to the standard
+    deviation showing the closing price's possible voltaility.
+    """
     for stock in stocks_df.StockName.unique():
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
-        mean_Val = df.mean()
         std_Val = df.std()
 
         fig = plt.figure()
@@ -200,6 +208,30 @@ def StandardDev(stocks_df):
 
         plt.show()
 
+def HoldingPeriod(stocks_df):
+    """
+    The function takes in the stocks dataframe and using
+    analytical techniques calculates whether the stock should
+    be held for long or short period of time
+    """
+    for stock in stocks_df.StockName.unique():
+        df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
+        zVal = zValue(df)
+
+
+def zValue(series):
+    """
+    This function takes a series as input and calculates the standard
+    deviation, mean, and uses the series last stock price as the x value
+    using these values it calculates the z value
+    """
+    meanVal = series.mean()
+    stdVal = series.std()
+    x = series[-1]
+    z = (x - meanVal) / stdVal
+    return z
+
+
 def main():
     stocks = user_input().split(',')
     stocks = parseStocks(stocks)
@@ -209,6 +241,7 @@ def main():
     CovarianceCorrelation(stocks_df)
     MarketComparison(stocks_df)
     StandardDev(stocks_df)
+
 
 if __name__ == '__main__':
     main()

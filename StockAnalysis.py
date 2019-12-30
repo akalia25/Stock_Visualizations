@@ -216,6 +216,20 @@ def HoldingPeriod(stocks_df):
     """
     for stock in stocks_df.StockName.unique():
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
+        zVal = zValue(df)
+
+
+def zValue(series):
+    """
+    This function takes a series as input and calculates the standard
+    deviation, mean, and uses the series last stock price as the x value
+    using these values it calculates the z value
+    """
+    meanVal = series.mean()
+    stdVal = series.std()
+    x = series[-1]
+    z = (x - meanVal) / stdVal
+    return z
 
 
 def main():

@@ -88,7 +88,7 @@ def stockForecastingMovingAverage(stocks_df):
                    title='Simple Moving Average Plot of ' + stock)
         ax1.set_ylabel('Stock Price')
         ax1.set_xlabel('Date')
-        plt.savefig('Simple_Moving_Average_' + stock +'.png', dpi=72,
+        plt.savefig('Screenshots/Simple_Moving_Average_' + stock +'.png', dpi=72,
                     bbox_inches='tight')
         plt.show()
         emaPlotdf = df1.filter(regex='\AEMA')
@@ -97,7 +97,7 @@ def stockForecastingMovingAverage(stocks_df):
                    title='Exponential Moving Average Plot of ' + stock)
         ax2.set_ylabel('Stock Price')
         ax2.set_xlabel('Date')
-        plt.savefig('Exponential_Moving_Average_' + stock +'.png', dpi=72,
+        plt.savefig('Screenshots/Exponential_Moving_Average_' + stock +'.png', dpi=72,
                     bbox_inches='tight')
         plt.show()
 
@@ -138,7 +138,7 @@ def stockBollingerBands(stocks_df):
         ax.set_xlabel('Date (Year/Month Hour/Minute)')
         ax.set_ylabel('Price')
         ax.legend()
-        plt.savefig('Bollinger_Bands_' + stock +'.png', dpi=72,
+        plt.savefig('Screenshots/Bollinger_Bands_' + stock +'.png', dpi=72,
                     bbox_inches='tight')
 
         plt.show()
@@ -184,7 +184,7 @@ def MarketComparison(stocks_df):
                    title='Stock Performance VS. Market(SPY)')
     ax.set_ylabel('Normalized Price')
     ax.set_xlabel('Date')
-    plt.savefig('MarketComparision.png', dpi=72, bbox_inches='tight')
+    plt.savefig('Screenshots/MarketComparision.png', dpi=72, bbox_inches='tight')
     plt.show()
 
 
@@ -216,7 +216,7 @@ def StandardDev(stocks_df):
         ax.errorbar(xaxis, df.values, yerr=std_Val, label=stock)
         ax.grid(color='lightgrey', linestyle='-')
         ax.set_facecolor('w')
-        plt.savefig('Error_Bar_Plot_' + stock +'.png',
+        plt.savefig('Screenshots/Error_Bar_Plot_' + stock +'.png',
                     dpi=72, bbox_inches='tight')
         plt.show()
 
@@ -232,6 +232,7 @@ def StockAppraisal(stocks_df):
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
         zVal = zValue(df)
         stockAppraisal[stock] = zVal
+
 
 
 def zValue(series):
@@ -273,7 +274,7 @@ def NormalGaussianCurve(stocks_df):
         ax.set_yticklabels([])
         ax.set_title('Normal Gaussian Curve of ' + stock)
 
-        plt.savefig('normal_curve_' + stock +'.png', dpi=72, bbox_inches='tight')
+        plt.savefig('Screenshots/normal_curve_' + stock +'.png', dpi=72, bbox_inches='tight')
         plt.show()
 
 

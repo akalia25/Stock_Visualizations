@@ -88,12 +88,18 @@ def stockForecastingMovingAverage(stocks_df):
                    title='Simple Moving Average Plot of ' + stock)
         ax1.set_ylabel('Stock Price')
         ax1.set_xlabel('Date')
+        plt.savefig('Simple_Moving_Average_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
+        plt.show()
         emaPlotdf = df1.filter(regex='\AEMA')
         emaPlotdf.loc[:, 'Close'] = df1.Close
         ax2 = emaPlotdf.plot(legend=True, grid=True,
                    title='Exponential Moving Average Plot of ' + stock)
         ax2.set_ylabel('Stock Price')
         ax2.set_xlabel('Date')
+        plt.savefig('Exponential_Moving_Average_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
+        plt.show()
 
         MovingAverageDF = pd.concat([df1, MovingAverageDF])
     return MovingAverageDF
@@ -132,6 +138,9 @@ def stockBollingerBands(stocks_df):
         ax.set_xlabel('Date (Year/Month Hour/Minute)')
         ax.set_ylabel('Price')
         ax.legend()
+        plt.savefig('Bollinger_Bands_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
+
         plt.show()
 
 
@@ -175,6 +184,7 @@ def MarketComparison(stocks_df):
                    title='Stock Performance VS. Market(SPY)')
     ax.set_ylabel('Normalized Price')
     ax.set_xlabel('Date')
+    plt.savefig('MarketComparision.png', dpi=72, bbox_inches='tight')
     plt.show()
 
 
@@ -206,7 +216,8 @@ def StandardDev(stocks_df):
         ax.errorbar(xaxis, df.values, yerr=std_Val, label=stock)
         ax.grid(color='lightgrey', linestyle='-')
         ax.set_facecolor('w')
-
+        plt.savefig('Error_Bar_Plot_' + stock +'.png',
+                    dpi=72, bbox_inches='tight')
         plt.show()
 
 
@@ -262,7 +273,7 @@ def NormalGaussianCurve(stocks_df):
         ax.set_yticklabels([])
         ax.set_title('Normal Gaussian Curve of ' + stock)
 
-        plt.savefig('normal_curve.png', dpi=72, bbox_inches='tight')
+        plt.savefig('normal_curve_' + stock +'.png', dpi=72, bbox_inches='tight')
         plt.show()
 
 

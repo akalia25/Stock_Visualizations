@@ -10,7 +10,8 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as matdates
-
+from scipy.stats import norm
+import numpy as np
 
 def user_input():
     """
@@ -208,15 +209,18 @@ def StandardDev(stocks_df):
 
         plt.show()
 
-def HoldingPeriod(stocks_df):
+
+def StockAppraisal(stocks_df):
     """
     The function takes in the stocks dataframe and using
     analytical techniques calculates whether the stock should
-    be held for long or short period of time
+    be bought or sold
     """
+    stockAppraisal = {}
     for stock in stocks_df.StockName.unique():
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
         zVal = zValue(df)
+        stockAppraisal[stock] = zVal
 
 
 def zValue(series):
@@ -227,9 +231,23 @@ def zValue(series):
     """
     meanVal = series.mean()
     stdVal = series.std()
-    x = series[-1]
-    z = (x - meanVal) / stdVal
-    return z
+    mu = series[-1]
+    z1 = (mu - meanVal) / stdVal
+    x = np.arange(-4, z1, 0.01)
+    y = norm.pdf(x, 0, 1)
+    # build the plot
+    fig, ax = plt.subplots(figsize=(9, 6))
+    plt.style.use('fivethirtyeight')
+
+    ax.fill_between(x, y, -1, alpha=0.3, color='b')
+    ax.set_xlim([-4, 4])
+    ax.set_ylim(0)
+    ax.set_xlabel('# of Standard Deviations Outside the Mean')
+    ax.set_yticklabels([])
+    ax.set_title('Normal Gaussian Curve')
+
+    plt.savefig('normal_curve.png', dpi=72, bbox_inches='tight')
+    plt.show()
 
 
 def main():

@@ -175,13 +175,13 @@ def MarketComparison(stocks_df):
     norm = norm/norm.iloc[0]
     norm.columns = norm.columns.droplevel()
     marketVal = yf.Ticker('SPY')
-    df1 = marketVal.history(period='1y')
+    df1 = marketVal.history(period='3mo')
     marketDF = df1.loc[:, ['Close']]
     marketDF = marketDF.rename(columns={'Close': 'SPY Market'})
     marketDF = marketDF/marketDF.iloc[0]
     norm['SPY Market'] = marketDF
     ax = norm.plot(legend=True, grid=True,
-                   title='Stock Performance VS. Market(SPY)')
+                   title='3 Month Normalized Stock Performance VS. Market(SPY)')
     ax.set_ylabel('Normalized Price')
     ax.set_xlabel('Date')
     plt.savefig('Screenshots/MarketComparision.png', dpi=72, bbox_inches='tight')

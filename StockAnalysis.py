@@ -10,7 +10,8 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as matdates
-
+from scipy.stats import norm
+import numpy as np
 
 def user_input():
     """
@@ -87,12 +88,18 @@ def stockForecastingMovingAverage(stocks_df):
                    title='Simple Moving Average Plot of ' + stock)
         ax1.set_ylabel('Stock Price')
         ax1.set_xlabel('Date')
+        plt.savefig('Screenshots/Simple_Moving_Average_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
+        plt.show()
         emaPlotdf = df1.filter(regex='\AEMA')
         emaPlotdf.loc[:, 'Close'] = df1.Close
         ax2 = emaPlotdf.plot(legend=True, grid=True,
                    title='Exponential Moving Average Plot of ' + stock)
         ax2.set_ylabel('Stock Price')
         ax2.set_xlabel('Date')
+        plt.savefig('Screenshots/Exponential_Moving_Average_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
+        plt.show()
 
         MovingAverageDF = pd.concat([df1, MovingAverageDF])
     return MovingAverageDF
@@ -131,6 +138,9 @@ def stockBollingerBands(stocks_df):
         ax.set_xlabel('Date (Year/Month Hour/Minute)')
         ax.set_ylabel('Price')
         ax.legend()
+        plt.savefig('Screenshots/Bollinger_Bands_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
+
         plt.show()
 
 
@@ -165,15 +175,16 @@ def MarketComparison(stocks_df):
     norm = norm/norm.iloc[0]
     norm.columns = norm.columns.droplevel()
     marketVal = yf.Ticker('SPY')
-    df1 = marketVal.history(period='1y')
+    df1 = marketVal.history(period='3mo')
     marketDF = df1.loc[:, ['Close']]
     marketDF = marketDF.rename(columns={'Close': 'SPY Market'})
     marketDF = marketDF/marketDF.iloc[0]
     norm['SPY Market'] = marketDF
     ax = norm.plot(legend=True, grid=True,
-                   title='Stock Performance VS. Market(SPY)')
+                   title='3 Month Normalized Stock Performance VS. Market(SPY)')
     ax.set_ylabel('Normalized Price')
     ax.set_xlabel('Date')
+    plt.savefig('Screenshots/MarketComparision.png', dpi=72, bbox_inches='tight')
     plt.show()
 
 
@@ -205,18 +216,23 @@ def StandardDev(stocks_df):
         ax.errorbar(xaxis, df.values, yerr=std_Val, label=stock)
         ax.grid(color='lightgrey', linestyle='-')
         ax.set_facecolor('w')
-
+        plt.savefig('Screenshots/Error_Bar_Plot_' + stock +'.png',
+                    dpi=72, bbox_inches='tight')
         plt.show()
 
-def HoldingPeriod(stocks_df):
+
+def StockAppraisal(stocks_df):
     """
     The function takes in the stocks dataframe and using
     analytical techniques calculates whether the stock should
-    be held for long or short period of time
+    be bought or sold
     """
+    stockAppraisal = {}
     for stock in stocks_df.StockName.unique():
         df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
         zVal = zValue(df)
+        stockAppraisal[stock] = zVal
+
 
 
 def zValue(series):
@@ -227,9 +243,39 @@ def zValue(series):
     """
     meanVal = series.mean()
     stdVal = series.std()
-    x = series[-1]
-    z = (x - meanVal) / stdVal
-    return z
+    mu = series[-1]
+    z1 = (mu - meanVal) / stdVal
+    return z1
+
+
+def NormalGaussianCurve(stocks_df):
+    """
+    This function plots the normal gaussian curve for the stocks closing price
+    times series data by calculating the z value using zValue function and
+    created a normal distrubutioon plot with the area of the z value shaded in
+    """
+    for stock in stocks_df.StockName.unique():
+        series = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
+        z1 = zValue(series)
+        x = np.arange(-4, z1, 0.01)
+        y = norm.pdf(x, 0, 1)
+        x_all = np.arange(-10, 10, 0.001)
+        y2 = norm.pdf(x_all,0,1)
+
+        # build the plot
+        fig, ax = plt.subplots(figsize=(9, 6))
+        plt.style.use('fivethirtyeight')
+        ax.plot(x_all,y2)
+        ax.fill_between(x, y, -1, alpha=0.3, color='b')
+        ax.fill_between(x_all,y2,0, alpha=0.1)
+        ax.set_xlim([-4, 4])
+        ax.set_ylim(0)
+        ax.set_xlabel('# of Standard Deviations Outside the Mean')
+        ax.set_yticklabels([])
+        ax.set_title('Normal Gaussian Curve of ' + stock)
+
+        plt.savefig('Screenshots/normal_curve_' + stock +'.png', dpi=72, bbox_inches='tight')
+        plt.show()
 
 
 def main():
@@ -241,6 +287,7 @@ def main():
     CovarianceCorrelation(stocks_df)
     MarketComparison(stocks_df)
     StandardDev(stocks_df)
+    NormalGaussianCurve(stocks_df)
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 # Stock_Analysis
 
 ### Abstract:
-The purpose of this script is to conduct statistical/Visualization/Forecasting analysis on stocks. The script runs by asking the user for the list of stocks they would like analyzed.
+The purpose of this script is to provide in-depth visualizations on stocks that utilize statistical/Forecasting methods, and can assist the user in making stock related decisons(Buy, Sell, Hold). The script runs by asking the user for the list of stocks they would like analyzed and generates various powerful visualizations for the user.
 
 ### Running this Script:
 To run this script simply download and execute the python file, and ensure that you have required modules installed (For yfinance installation use (pip install yfinance))

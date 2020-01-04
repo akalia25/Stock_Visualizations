@@ -13,6 +13,7 @@ import matplotlib.dates as matdates
 from scipy.stats import norm
 import numpy as np
 
+
 def user_input():
     """
     This function takes the user's input of what stocks they would like to
@@ -234,7 +235,6 @@ def StockAppraisal(stocks_df):
         stockAppraisal[stock] = zVal
 
 
-
 def zValue(series):
     """
     This function takes a series as input and calculates the standard
@@ -260,14 +260,14 @@ def NormalGaussianCurve(stocks_df):
         x = np.arange(-4, z1, 0.01)
         y = norm.pdf(x, 0, 1)
         x_all = np.arange(-10, 10, 0.001)
-        y2 = norm.pdf(x_all,0,1)
+        y2 = norm.pdf(x_all, 0, 1)
 
         # build the plot
         fig, ax = plt.subplots(figsize=(9, 6))
         plt.style.use('fivethirtyeight')
-        ax.plot(x_all,y2)
+        ax.plot(x_all, y2)
         ax.fill_between(x, y, -1, alpha=0.3, color='b')
-        ax.fill_between(x_all,y2,0, alpha=0.1)
+        ax.fill_between(x_all, y2, 0, alpha=0.1)
         ax.set_xlim([-4, 4])
         ax.set_ylim(0)
         ax.set_xlabel('# of Standard Deviations Outside the Mean')

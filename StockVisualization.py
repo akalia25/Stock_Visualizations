@@ -65,5 +65,6 @@ def main():
     stocks_df = historicalData(stocks)
     print(stocks_df)
 
+
 if __name__ == '__main__':
     main()

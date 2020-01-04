@@ -13,6 +13,7 @@ import matplotlib.dates as matdates
 from scipy.stats import norm
 import numpy as np
 
+
 def user_input():
     """
     This function takes the user's input of what stocks they would like to
@@ -56,3 +57,13 @@ def historicalData(stocks):
             print("Incorrect stock entered " + x)
             pass
     return stocks_df
+
+
+def main():
+    stocks = user_input().split(',')
+    stocks = parseStocks(stocks)
+    stocks_df = historicalData(stocks)
+
+
+if __name__ == '__main__':
+    main()

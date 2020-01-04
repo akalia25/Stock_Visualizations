@@ -63,7 +63,7 @@ def main():
     stocks = user_input().split(',')
     stocks = parseStocks(stocks)
     stocks_df = historicalData(stocks)
-
+    print(stocks_df)
 
 if __name__ == '__main__':
     main()

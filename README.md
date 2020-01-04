@@ -1,4 +1,4 @@
-# Stock_Analysis
+# Stock_Visualizations
 
 ### Abstract:
 The purpose of this script is to provide in-depth visualizations on stocks that utilize statistical/Forecasting methods, and can assist the user in making stock related decisons(Buy, Sell, Hold). The script runs by asking the user for the list of stocks they would like analyzed and generates various powerful visualizations for the user.

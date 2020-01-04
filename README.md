@@ -46,3 +46,4 @@ The script calculates the **normalized closing prices**(Xn / Xn-1) for the stock
 Using the last 30-days of data for each stock, the stock's closing price is used to calculate standard deviation. This standard deviation value becomes the error value for the error bar plot. The stock's closing price as well as the error-bar is plotted to measure potential volatility with the stock's closing price 
 
 ![alt text](https://github.com/akalia25/Stock_Analysis/blob/master/Screenshots/Error_Bar_Plot.png)
+

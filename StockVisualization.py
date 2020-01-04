@@ -274,7 +274,8 @@ def NormalGaussianCurve(stocks_df):
         ax.set_yticklabels([])
         ax.set_title('Normal Gaussian Curve of ' + stock)
 
-        plt.savefig('Screenshots/normal_curve_' + stock +'.png', dpi=72, bbox_inches='tight')
+        plt.savefig('Screenshots/normal_curve_' + stock +'.png', dpi=72,
+                    bbox_inches='tight')
         plt.show()
 
 

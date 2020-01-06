@@ -89,7 +89,8 @@ def stockForecastingMovingAverage(stocks_df):
                    title='Simple Moving Average Plot of ' + stock)
         ax1.set_ylabel('Stock Price')
         ax1.set_xlabel('Date')
-        plt.savefig('Screenshots/Simple_Moving_Average_' + stock +'.png', dpi=72,
+        plt.savefig('Screenshots/Simple_Moving_Average_' + stock +'.png',
+                    dpi=72,
                     bbox_inches='tight')
         plt.show()
         emaPlotdf = df1.filter(regex='\AEMA')
@@ -185,7 +186,8 @@ def MarketComparison(stocks_df):
                    title='3 Month Normalized Stock Performance VS. Market(SPY)')
     ax.set_ylabel('Normalized Price')
     ax.set_xlabel('Date')
-    plt.savefig('Screenshots/MarketComparision.png', dpi=72, bbox_inches='tight')
+    plt.savefig('Screenshots/MarketComparision.png', dpi=72,
+                bbox_inches='tight')
     plt.show()
 
 
@@ -220,19 +222,6 @@ def StandardDev(stocks_df):
         plt.savefig('Screenshots/Error_Bar_Plot_' + stock +'.png',
                     dpi=72, bbox_inches='tight')
         plt.show()
-
-
-def StockAppraisal(stocks_df):
-    """
-    The function takes in the stocks dataframe and using
-    analytical techniques calculates whether the stock should
-    be bought or sold
-    """
-    stockAppraisal = {}
-    for stock in stocks_df.StockName.unique():
-        df = stocks_df['Close'][(stocks_df.StockName == stock)][-30:]
-        zVal = zValue(df)
-        stockAppraisal[stock] = zVal
 
 
 def zValue(series):
